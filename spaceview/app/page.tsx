@@ -1,6 +1,4 @@
-import Image from "next/image";
 import Layout from "../components/Layout";
-import NestedComponent from "../components/NestedComponent";
 
 export default function Home() {
 	return (
