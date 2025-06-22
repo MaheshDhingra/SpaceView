@@ -23,7 +23,7 @@ export default function PlanetList({ cardMode = false }: { cardMode?: boolean })
       });
   }, []);
 
-  if (loading) return <div>Loading planets...</div>;
+  if (loading) return <div className="text-center text-gray-300 py-8">Loading planets...</div>;
 
   const filtered = planets.filter(p => p.englishName.toLowerCase().includes(search.toLowerCase()));
 
@@ -50,28 +50,28 @@ export default function PlanetList({ cardMode = false }: { cardMode?: boolean })
 
   return (
     <div>
-      <div className="flex gap-2 mb-4">
+      <div className="flex gap-2 mb-6">
         <input
           type="text"
           placeholder="Search planets..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="px-3 py-2 rounded bg-black border border-white/20 text-white w-full"
+          className="px-4 py-2 rounded-full bg-black border border-white/20 text-white w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
-        <button onClick={goToRandomPlanet} className="px-3 py-2 rounded bg-white text-black font-bold hover:bg-gray-200">Random</button>
+        <button onClick={goToRandomPlanet} className="px-4 py-2 rounded-full bg-white text-black font-bold hover:bg-gray-200 transition border border-white/20">Random</button>
       </div>
-      <ul className={cardMode ? 'grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3' : 'space-y-2'}>
+      <ul className={cardMode ? 'grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3' : 'space-y-2'}>
         {filtered.map(planet => (
-          <li key={planet.id} className={cardMode ? 'bg-white dark:bg-gray-900 rounded-lg shadow p-4 flex flex-col items-center hover:scale-105 transition-transform' : ''}>
-            <Link href={`/planets/${planet.id}`} className="text-blue-600 hover:underline flex flex-col items-center">
+          <li key={planet.id} className={cardMode ? 'bg-white/5 border border-white/10 rounded-2xl shadow-xl p-6 flex flex-col items-center hover:scale-105 transition-transform min-h-[200px]' : ''}>
+            <Link href={`/planets/${planet.id}`} className="text-blue-200 hover:underline flex flex-col items-center">
               {cardMode && (
                 <img
                   src={getPlanetImage(planet.englishName)}
                   alt={planet.englishName}
-                  className="w-24 h-24 object-cover rounded-full mb-2 border-2 border-blue-200 shadow"
+                  className="w-24 h-24 object-cover rounded-full mb-3 border-2 border-blue-200 shadow"
                 />
               )}
-              <span className="text-lg font-semibold mb-1">{planet.englishName}</span>
+              <span className="text-lg font-semibold mb-1 text-white tracking-wide">{planet.englishName}</span>
             </Link>
           </li>
         ))}
