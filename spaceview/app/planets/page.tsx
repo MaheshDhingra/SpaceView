@@ -15,6 +15,23 @@ export default function PlanetsPage() {
           <PlanetList cardMode />
         </div>
       </section>
+      <section className="w-full max-w-7xl mx-auto py-16 px-2 sm:px-6 lg:px-8">
+        <h2 className="text-2xl font-bold text-blue-200 mb-2">🌌 Free Space APIs You Can Use</h2>
+        <ul className="text-blue-100 text-lg list-disc list-inside space-y-1">
+          <li><a href="https://api.nasa.gov/" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-300">NASA Open APIs</a></li>
+          <li><a href="http://open-notify.org/Open-Notify-API/" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-300">Open Notify (ISS, astronauts)</a></li>
+          <li><a href="https://api.le-systeme-solaire.net/" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-300">Solar System OpenData API</a></li>
+          <li><a href="https://github.com/r-spacex/SpaceX-API" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-300">SpaceX API</a></li>
+          <li><a href="https://thespacedevs.com/llapi" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-300">The Space Devs API</a></li>
+          <li><a href="https://api.nasa.gov/" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-300">Astronomy Picture of the Day (APOD)</a></li>
+          <li><a href="https://api.nasa.gov/" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-300">Mars Rover Photos</a></li>
+          <li><a href="https://www.minorplanetcenter.net/web_service" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-300">Minor Planet Center API</a></li>
+          <li><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-300">Open Meteo (space weather)</a></li>
+          <li><a href="https://www.meteorshowers.org/api" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-300">Meteors API</a></li>
+          <li><a href="https://tle.ivanstanojevic.me/api/tle/" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-300">TLE API (satellite orbits)</a></li>
+          <li><a href="https://llapi.thespacedevs.com/2.2.0/swagger/" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-300">Launch Library 2</a></li>
+        </ul>
+      </section>
     </Layout>
   );
 }
