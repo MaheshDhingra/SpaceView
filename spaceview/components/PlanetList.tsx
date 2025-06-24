@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 interface Planet {
   id: string;
@@ -56,22 +57,27 @@ export default function PlanetList({ cardMode = false }: { cardMode?: boolean })
           placeholder="Search planets..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="px-4 py-2 rounded-full bg-black border border-white/20 text-white w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="px-4 py-2 rounded-full bg-black border border-white/20 text-white w-full focus:outline-none focus:ring-2 focus:ring-white"
         />
         <button onClick={goToRandomPlanet} className="px-4 py-2 rounded-full bg-white text-black font-bold hover:bg-gray-200 transition border border-white/20">Random</button>
       </div>
-      <ul className={cardMode ? 'grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3' : 'space-y-2'}>
+      <ul className={cardMode ? 'grid gap-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4' : 'space-y-2'}>
         {filtered.map(planet => (
-          <li key={planet.id} className={cardMode ? 'bg-white/5 border border-white/10 rounded-2xl shadow-xl p-6 flex flex-col items-center hover:scale-105 transition-transform min-h-[200px]' : ''}>
-            <Link href={`/planets/${planet.id}`} className="text-blue-200 hover:underline flex flex-col items-center">
+          <li key={planet.id} className={cardMode ? 'bg-black border border-white/20 rounded-2xl shadow-2xl p-8 flex flex-col items-center hover:scale-105 transition-transform min-h-[320px] max-w-xs mx-auto group cursor-pointer duration-200' : ''}>
+            <Link href={`/planets/${planet.id}`} className="text-white hover:underline flex flex-col items-center w-full">
               {cardMode && (
-                <img
+                <Image
                   src={getPlanetImage(planet.englishName)}
                   alt={planet.englishName}
-                  className="w-24 h-24 object-cover rounded-full mb-3 border-2 border-blue-200 shadow"
+                  width={120}
+                  height={120}
+                  className="w-28 h-28 object-cover rounded-full mb-6 border-2 border-white shadow-xl group-hover:scale-110 transition-transform bg-black"
+                  style={{background: '#000'}}
                 />
               )}
-              <span className="text-lg font-semibold mb-1 text-white tracking-wide">{planet.englishName}</span>
+              <span className="text-2xl font-bold mb-2 text-white tracking-wide text-center drop-shadow">
+                {planet.englishName}
+              </span>
             </Link>
           </li>
         ))}

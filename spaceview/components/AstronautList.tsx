@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 interface Astronaut {
   id: number;
@@ -45,23 +46,26 @@ export default function AstronautList({ cardMode = false }: { cardMode?: boolean
           placeholder="Search astronauts..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="px-4 py-2 rounded-full bg-black border border-white/20 text-white w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+          className="px-4 py-2 rounded-full bg-black border border-white/20 text-white w-full focus:outline-none focus:ring-2 focus:ring-white"
         />
         <button onClick={goToRandomAstronaut} className="px-4 py-2 rounded-full bg-white text-black font-bold hover:bg-gray-200 transition border border-white/20">Random</button>
       </div>
-      <ul className={cardMode ? 'grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3' : 'space-y-2'}>
+      <ul className={cardMode ? 'grid gap-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4' : 'space-y-2'}>
         {filtered.map(astro => (
-          <li key={astro.id} id={`astro-${astro.id}`} className={cardMode ? 'bg-white/5 border border-white/10 rounded-2xl shadow-xl p-6 flex flex-col items-center hover:scale-105 transition-transform min-h-[200px]' : 'border p-2 rounded'}>
+          <li key={astro.id} id={`astro-${astro.id}`} className={cardMode ? 'bg-black border border-white/20 rounded-2xl shadow-2xl p-8 flex flex-col items-center hover:scale-105 transition-transform min-h-[320px] max-w-xs mx-auto group cursor-pointer duration-200' : 'border p-2 rounded'}>
             {cardMode && (
-              <img
+              <Image
                 src={astro.profile_image || 'https://upload.wikimedia.org/wikipedia/commons/6/6f/SpaceX_Demo-2_Launch_%28NHQ202005300026%29.jpg'}
                 alt={astro.name}
-                className="w-24 h-24 object-cover rounded-full mb-3 border-2 border-indigo-200 shadow"
+                width={120}
+                height={120}
+                className="w-28 h-28 object-cover rounded-full mb-6 border-2 border-white shadow-xl group-hover:scale-110 transition-transform bg-black"
+                style={{background: '#000'}}
               />
             )}
-            <div className="font-bold text-lg mb-1 text-white tracking-wide">{astro.name}</div>
-            <div className="text-gray-300">Born: {astro.date_of_birth}</div>
-            <div className="text-gray-300">Nationality: {astro.nationality}</div>
+            <div className="font-bold text-2xl mb-2 text-white tracking-wide text-center drop-shadow">{astro.name}</div>
+            <div className="text-gray-300 text-lg">Born: {astro.date_of_birth}</div>
+            <div className="text-gray-300 text-lg">Nationality: {astro.nationality}</div>
           </li>
         ))}
       </ul>

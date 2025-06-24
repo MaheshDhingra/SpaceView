@@ -22,6 +22,8 @@
 body {
   background: #000 !important;
   color: #fff !important;
+  font-family: 'Inter', 'Geist', 'Segoe UI', Arial, sans-serif;
+  cursor: none;
 }
 
 html {
@@ -30,6 +32,7 @@ html {
 
 * {
   border-color: #fff;
+  box-sizing: border-box;
 }
 
 ::-webkit-scrollbar {
@@ -38,4 +41,32 @@ html {
 }
 ::-webkit-scrollbar-thumb {
   background: #333;
+  border-radius: 8px;
+}
+
+a {
+  transition: color 0.2s;
+}
+
+input, button, textarea {
+  font-family: inherit;
+  outline: none;
+}
+
+/* Custom animated cursor */
+.cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 60%, #00f0ff 100%);
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: lighten;
+  box-shadow: 0 0 16px #00f0ff, 0 0 32px #fff;
+  transition: transform 0.08s cubic-bezier(.4,2,.6,1), opacity 0.2s;
+}
+.cursor-dot.active {
+  transform: scale(1.7);
+  opacity: 0.7;
 }
