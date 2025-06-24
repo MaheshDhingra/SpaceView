@@ -14,6 +14,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <footer className="text-center py-6 text-gray-400 text-sm border-t border-white/10 mt-8">
           SpaceView &copy; {new Date().getFullYear()} &mdash; Powered by Mahesh
         </footer>
+        
       </div>
     </div>
   );

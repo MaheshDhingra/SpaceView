@@ -16,15 +16,34 @@ const spaceFacts = [
 	"A spoonful of a neutron star weighs about a billion tons."
 ];
 
-const cardClass = "bg-black border border-white/20 rounded-2xl p-6 shadow-lg w-full max-w-xs min-h-[220px] flex flex-col items-center justify-center animate-fade-in";
+interface ApodResponse {
+  url: string;
+  title: string;
+  explanation: string;
+  [key: string]: any;
+}
+interface IssResponse {
+  iss_position: { latitude: number; longitude: number };
+  [key: string]: any;
+}
+interface SpacexResponse {
+  name: string;
+  date_utc: string;
+  [key: string]: any;
+}
+interface MarsPhoto {
+  img_src: string;
+  earth_date: string;
+  [key: string]: any;
+}
 
 export default function Home() {
 	const [fact, setFact] = useState("");
 	const [subtitle, setSubtitle] = useState("");
-	const [apod, setApod] = useState<any>(null);
-	const [iss, setIss] = useState<any>(null);
-	const [spacex, setSpacex] = useState<any>(null);
-	const [mars, setMars] = useState<any>(null);
+	const [apod, setApod] = useState<ApodResponse | null>(null);
+	const [iss, setIss] = useState<IssResponse | null>(null);
+	const [spacex, setSpacex] = useState<SpacexResponse | null>(null);
+	const [mars, setMars] = useState<MarsPhoto | null>(null);
 	const [loading, setLoading] = useState({ apod: true, iss: true, spacex: true, mars: true });
 	const [error, setError] = useState({ apod: '', iss: '', spacex: '', mars: '' });
 	const subtitles = [
@@ -78,7 +97,7 @@ export default function Home() {
 			.catch(() => setError(e => ({ ...e, mars: 'Could not load Mars photo.' })))
 			.finally(() => setLoading(l => ({ ...l, mars: false })));
 		return () => clearInterval(interval);
-	}, []);
+	}, [subtitles]);
 
 	return (
 		<Layout>
