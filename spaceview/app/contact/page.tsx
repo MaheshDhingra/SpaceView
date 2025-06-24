@@ -14,7 +14,6 @@ interface GithubIssue {
   created_at: string;
   updated_at: string;
   body?: string;
-  [key: string]: any;
 }
 
 export default function ContactPage() {

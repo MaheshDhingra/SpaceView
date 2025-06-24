@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 interface MeteorShower {
   name: string;
   activity: string;
-  [key: string]: any;
 }
 
 export default function MeteorsPage() {

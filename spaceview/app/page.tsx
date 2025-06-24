@@ -20,21 +20,17 @@ interface ApodResponse {
   url: string;
   title: string;
   explanation: string;
-  [key: string]: any;
 }
 interface IssResponse {
   iss_position: { latitude: number; longitude: number };
-  [key: string]: any;
 }
 interface SpacexResponse {
   name: string;
   date_utc: string;
-  [key: string]: any;
 }
 interface MarsPhoto {
   img_src: string;
   earth_date: string;
-  [key: string]: any;
 }
 
 export default function Home() {
@@ -46,14 +42,14 @@ export default function Home() {
 	const [mars, setMars] = useState<MarsPhoto | null>(null);
 	const [loading, setLoading] = useState({ apod: true, iss: true, spacex: true, mars: true });
 	const [error, setError] = useState({ apod: '', iss: '', spacex: '', mars: '' });
-	const subtitles = [
-		"Explore the cosmos from your screen...",
-		"Unravel mysteries of the universe!",
-		"Your journey to the stars begins here.",
-		"Discover planets, astronauts, and more!"
-	];
 
 	useEffect(() => {
+		const subtitles = [
+			"Explore the cosmos from your screen...",
+			"Unravel mysteries of the universe!",
+			"Your journey to the stars begins here.",
+			"Discover planets, astronauts, and more!"
+		];
 		setFact(spaceFacts[Math.floor(Math.random() * spaceFacts.length)]);
 		let i = 0;
 		const interval = setInterval(() => {
@@ -97,7 +93,7 @@ export default function Home() {
 			.catch(() => setError(e => ({ ...e, mars: 'Could not load Mars photo.' })))
 			.finally(() => setLoading(l => ({ ...l, mars: false })));
 		return () => clearInterval(interval);
-	}, [subtitles]);
+	}, []); // Removed subtitles from dependency array
 
 	return (
 		<Layout>

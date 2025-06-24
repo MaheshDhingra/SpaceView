@@ -13,7 +13,6 @@ interface CurrentWeather {
 }
 interface OpenMeteoApiResponse {
   current_weather: CurrentWeather;
-  [key: string]: any;
 }
 
 export default function OpenMeteoPage() {

@@ -11,11 +11,9 @@ interface MinorPlanet {
   a: string;
   e: string;
   i: string;
-  [key: string]: any;
 }
 interface MinorPlanetApiResponse {
   data: MinorPlanet[];
-  [key: string]: any;
 }
 
 export default function MinorPlanetsPage() {
