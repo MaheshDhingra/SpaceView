@@ -135,6 +135,8 @@ export default function Home() {
 							<FaRocket /> Resources
 						</Link>
 						<Link
+							href="/about"
+							className="flex items-center gap-2 px-7 py-3 rounded-full bg-black text-white border border-white/20 font-semibold shadow hover:bg-gray-900 transition focus:outline-none focus:ring-2 focus:ring-white hover:scale-105 duration-200"
 						>
 							About
 						</Link>

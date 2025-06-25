@@ -4,6 +4,7 @@ import Image from "next/image";
 interface MarsPhoto {
   img_src: string;
   earth_date: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
