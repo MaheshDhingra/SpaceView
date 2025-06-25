@@ -36,16 +36,32 @@ export default function ContactPage() {
           Have questions, suggestions, or want to collaborate? Reach out to the SpaceView team!
         </p>
         <div className="text-gray-400 text-lg">
-          <p>Email: <a href="mailto:spaceview@example.com" className="underline hover:text-blue-300">spaceview@example.com</a></p>
-          <p className="mt-2">Or open an issue on our <a href="https://github.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-300">GitHub</a>.</p>
+          <p>Email: <a href="mailto:dhingram447@gmail.com" className="underline hover:text-blue-300">dhingram447@gmail.com</a></p>
+          <p className="mt-2">Or open an issue on our <a href="https://github.com/MaheshDhingra/SpaceView" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-300">GitHub</a>.</p>
           <div className="mt-6 bg-black border border-white/20 rounded-xl p-4">
             <h2 className="font-bold text-white mb-2 text-lg">Recent NASA APOD GitHub Issues</h2>
             {loading ? <p className="text-gray-400">Loading...</p> : (
-              <pre className="text-xs text-gray-200 whitespace-pre-wrap max-h-64 overflow-y-auto">
-                {github && !Array.isArray(github) && 'error' in github
-                  ? github.error
-                  : JSON.stringify(github, null, 2)}
-              </pre>
+              <div className="text-left">
+                {github && !Array.isArray(github) && 'error' in github ? (
+                  <p className="text-red-400">{github.error}</p>
+                ) : Array.isArray(github) && github.length > 0 ? (
+                  <ul className="space-y-4">
+                    {github.map(issue => (
+                      <li key={issue.id} className="border-b border-white/10 pb-2">
+                        <a href={issue.html_url} target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-300 underline">
+                          #{issue.number}: {issue.title}
+                        </a>
+                        <div className="text-xs text-gray-400 mt-1">
+                          By <a href={issue.user.html_url} target="_blank" rel="noopener noreferrer" className="underline">{issue.user.login}</a> • {new Date(issue.created_at).toLocaleDateString()} • {issue.state} • 💬 {issue.comments}
+                        </div>
+                        {issue.body && <p className="mt-1 text-gray-300 text-xs line-clamp-3">{issue.body.slice(0, 200)}{issue.body.length > 200 ? '...' : ''}</p>}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-gray-400">No recent issues found.</p>
+                )}
+              </div>
             )}
           </div>
         </div>
