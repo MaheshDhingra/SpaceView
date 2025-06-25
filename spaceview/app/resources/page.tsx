@@ -118,7 +118,14 @@ export default function ResourcesPage() {
 								<div key={api.key} className="bg-black border border-white/20 rounded-xl p-4 shadow text-left">
 									<h2 className="font-bold text-white mb-2 text-lg">{api.name}</h2>
 									<pre className="text-xs text-gray-200 whitespace-pre-wrap max-h-64 overflow-y-auto">
-										{JSON.stringify(data, null, 2)}
+										{typeof data === 'string' || typeof data === 'number' || typeof data === 'boolean' || data == null
+											? String(data)
+											: (Array.isArray(data) || typeof data !== 'object')
+												? JSON.stringify(data, null, 2)
+												: (typeof data.code === 'string' && typeof data.message === 'string')
+													? `${data.code}: ${data.message}`
+													: JSON.stringify(data, null, 2)
+										}
 									</pre>
 								</div>
 							);
