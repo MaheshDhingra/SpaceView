@@ -33,14 +33,24 @@ export default function AboutPage() {
         <p className="text-xl text-gray-200 mb-6">
           SpaceView is your interactive portal to the wonders of our solar system and the people who explore it. Discover planets, astronauts, and live space data from real APIs—all in a beautiful, modern interface.
         </p>
-        <div cla-ssName="text-gray-400 text-lg">
+        <div className="text-gray-400 text-lg">
           <p>Created by passionate space enthusiasts. Powered by NASA, SpaceX, and other open APIs.</p>
           <div className="mt-6 bg-black border border-white/20 rounded-xl p-4">
             <h2 className="font-bold text-white mb-2 text-lg">NASA APOD GitHub Repo</h2>
             {loading ? <p className="text-gray-400">Loading...</p> : (
-              <pre className="text-xs text-gray-200 whitespace-pre-wrap max-h-64 overflow-y-auto">
-                {github && 'error' in github ? github.error : JSON.stringify(github, null, 2)}
-              </pre>
+              github && 'error' in github ? (
+                <p className="text-red-400">{github.error}</p>
+              ) : github ? (
+                <div className="text-left">
+                  <a href={github.html_url} target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-300 underline text-lg">{github.full_name}</a>
+                  <p className="text-gray-300 mt-1 mb-2">{github.description}</p>
+                  <div className="flex flex-wrap gap-4 text-xs text-gray-400 mb-2">
+                    <span>⭐ {github.stargazers_count} stars</span>
+                    <span>🍴 {github.forks_count} forks</span>
+                    <span>🐛 {github.open_issues_count} open issues</span>
+                  </div>
+                </div>
+              ) : null
             )}
           </div>
         </div>

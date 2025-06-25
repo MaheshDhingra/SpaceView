@@ -68,19 +68,61 @@ export default function ResourcesPage() {
 					{loading ? (
 						<div className="col-span-full text-center text-gray-400">Loading all APIs...</div>
 					) : (
-						resourceApis.map((api) => (
-							<div
-								key={api.key}
-								className="bg-black border border-white/20 rounded-xl p-4 shadow text-left overflow-x-auto"
-							>
-								<h2 className="font-bold text-white mb-2 text-lg">{api.name}</h2>
-								<pre className="text-xs text-gray-200 whitespace-pre-wrap max-h-64 overflow-y-auto">
-									{results[api.key]?.error
-										? results[api.key].error
-										: JSON.stringify(results[api.key], null, 2)}
-								</pre>
-							</div>
-						))
+						resourceApis.map((api) => {
+							const data = results[api.key];
+							if (data?.error) {
+								return (
+									<div key={api.key} className="bg-black border border-white/20 rounded-xl p-4 shadow text-left">
+										<h2 className="font-bold text-white mb-2 text-lg">{api.name}</h2>
+										<p className="text-red-400">{data.error}</p>
+									</div>
+								);
+							}
+							if (api.key === "nasa_apod" && data) {
+								return (
+									<div key={api.key} className="bg-black border border-white/20 rounded-xl p-4 shadow text-left flex flex-col items-center">
+										<h2 className="font-bold text-white mb-2 text-lg">{api.name}</h2>
+										{data.url && (
+											<img src={data.url} alt={data.title} className="w-full h-40 object-cover rounded mb-2" />
+										)}
+										<p className="text-white font-semibold mb-1">{data.title}</p>
+										<p className="text-gray-400 text-xs mb-2">{data.date}</p>
+										<p className="text-gray-300 text-xs mb-2 line-clamp-3">{data.explanation?.slice(0, 200)}{data.explanation?.length > 200 ? '...' : ''}</p>
+										<a href="https://apod.nasa.gov/apod/" target="_blank" rel="noopener noreferrer" className="underline text-blue-300">View APOD</a>
+									</div>
+								);
+							}
+							if (api.key === "spacex" && data) {
+								return (
+									<div key={api.key} className="bg-black border border-white/20 rounded-xl p-4 shadow text-left flex flex-col items-center">
+										<h2 className="font-bold text-white mb-2 text-lg">{api.name}</h2>
+										<p className="text-white font-semibold mb-1">{data.name}</p>
+										<p className="text-gray-400 text-xs mb-2">{data.date_utc?.slice(0,10)}</p>
+										{data.links?.webcast && (
+											<a href={data.links.webcast} target="_blank" rel="noopener noreferrer" className="underline text-blue-300">Watch Launch</a>
+										)}
+									</div>
+								);
+							}
+							if (api.key === "openmeteo" && data?.current_weather) {
+								return (
+									<div key={api.key} className="bg-black border border-white/20 rounded-xl p-4 shadow text-left flex flex-col items-center">
+										<h2 className="font-bold text-white mb-2 text-lg">{api.name}</h2>
+										<p className="text-white font-semibold mb-1">Current Temp: {data.current_weather.temperature}°C</p>
+										<p className="text-gray-400 text-xs mb-2">Windspeed: {data.current_weather.windspeed} km/h</p>
+									</div>
+								);
+							}
+							// fallback for unknown APIs
+							return (
+								<div key={api.key} className="bg-black border border-white/20 rounded-xl p-4 shadow text-left">
+									<h2 className="font-bold text-white mb-2 text-lg">{api.name}</h2>
+									<pre className="text-xs text-gray-200 whitespace-pre-wrap max-h-64 overflow-y-auto">
+										{JSON.stringify(data, null, 2)}
+									</pre>
+								</div>
+							);
+						})
 					)}
 				</div>
 			</section>
