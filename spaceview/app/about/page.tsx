@@ -39,7 +39,7 @@ export default function AboutPage() {
             <h2 className="font-bold text-white mb-2 text-lg">NASA APOD GitHub Repo</h2>
             {loading ? <p className="text-gray-400">Loading...</p> : (
               <pre className="text-xs text-gray-200 whitespace-pre-wrap max-h-64 overflow-y-auto">
-                {github?.error ? github.error : JSON.stringify(github, null, 2)}
+                {github && 'error' in github ? github.error : JSON.stringify(github, null, 2)}
               </pre>
             )}
           </div>

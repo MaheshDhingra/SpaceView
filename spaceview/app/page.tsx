@@ -20,6 +20,7 @@ interface ApodResponse {
   url: string;
   title: string;
   explanation: string;
+  date: string;
 }
 interface IssResponse {
   iss_position: { latitude: number; longitude: number };
@@ -27,6 +28,7 @@ interface IssResponse {
 interface SpacexResponse {
   name: string;
   date_utc: string;
+  links: { webcast?: string };
 }
 interface MarsPhoto {
   img_src: string;
@@ -62,7 +64,8 @@ export default function Home() {
 				if (!res.ok) throw new Error('Failed to fetch APOD');
 				return res.json();
 			})
-			.then(data => setApod(data))
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			.then((data: any) => setApod(data))
 			.catch(() => setError(e => ({ ...e, apod: 'Could not load APOD.' })))
 			.finally(() => setLoading(l => ({ ...l, apod: false })));
 		// ISS Location
@@ -71,7 +74,8 @@ export default function Home() {
 				if (!res.ok) throw new Error('Failed to fetch ISS');
 				return res.json();
 			})
-			.then(data => setIss({ iss_position: { latitude: data.latitude, longitude: data.longitude } }))
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			.then((data: any) => setIss({ iss_position: { latitude: data.latitude, longitude: data.longitude } }))
 			.catch(() => setError(e => ({ ...e, iss: 'Could not load ISS location.' })))
 			.finally(() => setLoading(l => ({ ...l, iss: false })));
 		// SpaceX latest launch
@@ -131,8 +135,6 @@ export default function Home() {
 							<FaRocket /> Resources
 						</Link>
 						<Link
-							href="/about"
-							className="flex items-center gap-2 px-7 py-3 rounded-full bg-black text-white border border-white/20 font-semibold shadow hover:bg-gray-900 transition focus:outline-none focus:ring-2 focus:ring-white hover:scale-105 duration-200"
 						>
 							About
 						</Link>
