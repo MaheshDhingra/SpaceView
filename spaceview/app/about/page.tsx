@@ -12,17 +12,41 @@ interface GithubRepo {
   stargazers_count: number;
   forks_count: number;
   open_issues_count: number;
+  owner: { login: string; avatar_url: string; html_url: string };
 }
 
+const POPULAR_REPOS = [
+  "nasa/apod-api",
+  "nasa/NASA-Open-APIs",
+  "thespacedevs/llapi",
+  "r-spacex/SpaceX-API",
+  "OpenAstronomy/astropy",
+  "OpenSpace/OpenSpace",
+  "cosmos-io/cosmos",
+];
+
 export default function AboutPage() {
-  const [github, setGithub] = useState<GithubRepo | { error: string } | null>(null);
+  const [repos, setRepos] = useState<(GithubRepo | { error: string })[]>([]);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    fetch("https://api.github.com/repos/nasa/apod-api")
-      .then(res => res.json())
-      .then(setGithub)
-      .catch(() => setGithub({ error: "Failed to fetch" }))
-      .finally(() => setLoading(false));
+    setLoading(true);
+    Promise.all(
+      POPULAR_REPOS.map(repo =>
+        fetch(`https://api.github.com/repos/${repo}`)
+          .then(res => res.ok ? res.json() : Promise.reject(res))
+          .catch(async (err) => {
+            let msg = "Failed to fetch";
+            if (err && err.json) {
+              try {
+                const data = await err.json();
+                msg = data.message || msg;
+              } catch {}
+            }
+            return { error: msg };
+          })
+      )
+    ).then(setRepos).finally(() => setLoading(false));
   }, []);
   return (
     <Layout>
@@ -36,21 +60,33 @@ export default function AboutPage() {
         <div className="text-gray-400 text-lg">
           <p>Created by passionate space enthusiasts. Powered by NASA, SpaceX, and other open APIs.</p>
           <div className="mt-6 bg-black border border-white/20 rounded-xl p-4">
-            <h2 className="font-bold text-white mb-2 text-lg">NASA APOD GitHub Repo</h2>
+            <h2 className="font-bold text-white mb-2 text-lg">Popular Space-Related GitHub Repos</h2>
             {loading ? <p className="text-gray-400">Loading...</p> : (
-              github && 'error' in github ? (
-                <p className="text-red-400">{github.error}</p>
-              ) : github ? (
-                <div className="text-left">
-                  <a href={github.html_url} target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-300 underline text-lg">{github.full_name}</a>
-                  <p className="text-gray-300 mt-1 mb-2">{github.description}</p>
-                  <div className="flex flex-wrap gap-4 text-xs text-gray-400 mb-2">
-                    <span>⭐ {github.stargazers_count} stars</span>
-                    <span>🍴 {github.forks_count} forks</span>
-                    <span>🐛 {github.open_issues_count} open issues</span>
-                  </div>
-                </div>
-              ) : null
+              <div className="grid grid-cols-1 gap-6">
+                {repos.map((repo, i) => {
+                  if ('error' in repo) {
+                    // Handle error as string or as an object with a message property
+                    const errorMsg = typeof repo.error === 'string' ? repo.error : (repo.error && typeof repo.error === 'object' && 'message' in repo.error ? (repo.error as any).message : 'Unknown error');
+                    return <div key={i} className="text-red-400">{errorMsg}</div>;
+                  }
+                  // Defensive: skip if repo is not an object or missing expected fields
+                  if (!repo || typeof repo !== 'object' || !repo.id || !repo.owner) return null;
+                  return (
+                    <div key={repo.id} className="flex items-center gap-4 bg-black/80 border border-white/10 rounded-lg p-4">
+                      <img src={repo.owner.avatar_url} alt={repo.owner.login} className="w-10 h-10 rounded-full border border-white/10" />
+                      <div className="flex-1">
+                        <a href={repo.html_url} target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-300 underline text-lg">{repo.full_name}</a>
+                        <p className="text-gray-300 mt-1 mb-2 text-sm">{repo.description}</p>
+                        <div className="flex flex-wrap gap-4 text-xs text-gray-400 mb-2">
+                          <span>⭐ {repo.stargazers_count} stars</span>
+                          <span>🍴 {repo.forks_count} forks</span>
+                          <span>🐛 {repo.open_issues_count} open issues</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             )}
           </div>
         </div>
